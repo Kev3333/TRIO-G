@@ -1,0 +1,21 @@
+# Arquivos temporários do LaTeX
+*.aux
+*.log
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+*~
+
+# Ambientes Python (caso adicione scripts)
+__pycache__/
+*.py[cod]
+venv/
+env/
