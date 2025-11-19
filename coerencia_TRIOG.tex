@@ -1,0 +1,96 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,siunitx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{margin=1in}
+\title{Formalização da Coerência na TRIO-G aplicada à Cinética Química}
+\author{Kevin Khristopher Kuznier \\ Formalização gerada com ChatGPT}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este documento apresenta a formalização matemática da \emph{dimensão da coerência} utilizada na Teoria TRIO-G aplicada à cinética química. A coerência é quantificada por um índice adimensional $\delta$ que multiplicado por uma escala energética $R^*$ produz uma energia efetiva de coerência $\varnothing$ que reduz a barreira de ativação efetiva. Para aplicações químicas por mol, adotamos a escala por bit $R^* = R T \ln 2$ que permite interpretar 1 bit como um fator de 2 na constante efetiva de reação.
+\end{abstract}
+
+\section{Notação e convenções}
+\begin{itemize}
+  \item $T$ : temperatura em kelvin (K).
+  \item $R$ : constante dos gases, $R=\SI{8.314462618}{J\,mol^{-1}K^{-1}}$.
+  \item $R^{*}$ : escala energética de coerência por mol. Por convenção adotamos
+    \begin{equation}
+      R^{*}=R\,T\,\ln 2.
+    \end{equation}
+  \item $\varnothing$ : energia efetiva de coerência (J\,mol$^{-1}$).
+  \item $\delta$ : índice adimensional de coerência, com
+    \begin{equation}
+      \varnothing=\delta\,R^{*}, \qquad \delta=\frac{\varnothing}{R^{*}}.
+    \end{equation}
+  \item $\Delta G^{\neq}$ : energia livre de ativação padrão (J\,mol$^{-1}$).
+  \item $A$ : pré-exponencial (constante cinética de Arrhenius/Eyring conforme o modelo).
+\end{itemize}
+
+\section{Constante efetiva com coerência}
+A coerência reduz a barreira de ativação efetiva segundo
+\begin{equation}
+  \Delta G^{\neq}_{\mathrm{eff}}=\Delta G^{\neq}-\varnothing=\Delta G^{\neq}-\delta R^{*}.
+\end{equation}
+A constante efetiva é dada por
+\begin{equation}
+  K_{\mathrm{eff}}=A\exp\!\left(-\frac{\Delta G^{\neq}_{\mathrm{eff}}}{RT}\right)
+  =A\exp\!\left(-\frac{\Delta G^{\neq}}{RT}\right)\exp\!\left(\frac{\delta R^{*}}{RT}\right).
+\end{equation}
+Com $R^{*}=RT\ln 2$ isso simplifica para
+\begin{equation}
+  K_{\mathrm{eff}}=A\exp\!\left(-\frac{\Delta G^{\neq}}{RT}\right)2^{\delta}.
+\end{equation}
+Portanto, uma unidade de $\delta$ (1 bit) corresponde a um fator \(2\) na constante efetiva.
+
+\section{Critério de fechamento (indicador $F$)}
+Definimos
+\begin{equation}
+  F=\delta-\frac{\Delta Q}{c},
+\end{equation}
+onde $\Delta Q$ é a demanda de reorganização (energia ou quantidade normalizada) e $c$ é a capacidade do microambiente (mesma unidade de $\Delta Q$ se energético).
+\begin{itemize}
+  \item $F>0$ : reação favorecida (pré-organização suficiente).
+  \item $F=0$ : limiar crítico.
+  \item $F<0$ : reação não favorecida (meio desorganizado).
+\end{itemize}
+
+\section{Extração experimental de $\delta$ (bits)}
+Se uma perturbação causa uma mudança na energia de ativação $\Delta\Delta G^{\neq}$ (J\,mol$^{-1}$), então a variação equivalente em bits é
+\begin{equation}
+  \Delta\delta=\frac{\Delta\Delta G^{\neq}}{R^{*}}=\frac{\Delta\Delta G^{\neq}}{RT\ln 2}.
+\end{equation}
+E
+\begin{equation}
+  \frac{K_{\mathrm{var}}}{K_{\mathrm{ref}}}=2^{\Delta\delta},
+  \qquad
+  \Delta\delta=\log_{2}\!\left(\frac{K_{\mathrm{var}}}{K_{\mathrm{ref}}}\right).
+\end{equation}
+
+\section{Exemplo numérico (T = 300~K)}
+Para $T=\SI{300}{K}$,
+\begin{equation}
+  R^{*}=RT\ln2 \approx \SI{1728.944}{J\,mol^{-1}} \approx \SI{1.7289}{kJ\,mol^{-1}}.
+\end{equation}
+Se uma mutação reduz $\Delta G^{\neq}$ em \SI{5.0}{kJ\,mol^{-1}}:
+\begin{equation}
+  \Delta\delta=\frac{5000\ \mathrm{J\,mol^{-1}}}{1728.944\ \mathrm{J\,mol^{-1}}}\approx 2.892\ \text{bits},
+\end{equation}
+o que corresponde a um fator de taxa $2^{2.892}\approx 7.42$.
+
+\section{Notas e recomendações}
+\begin{itemize}
+  \item Padronizar a escolha entre escala por partícula ($k_{B}T\ln2$) ou por mol ($RT\ln2$). Para cinética química por mol recomendamos $RT\ln2$.
+  \item Definir explicitamente as unidades de $\Delta Q$ e $c$ (energéticas ou normalizadas) para que $F$ seja adimensional.
+  \item Evitar usar $mc^{2}$ sem renormalização para escalas químicas.
+  \item Calibrar o modelo com dados experimentais (ΔΔG‡) para mapear descritores estruturais em $\delta$.
+\end{itemize}
+
+\section*{Arquivos gerados}
+Este pacote acompanha um arquivo CSV com exemplos numéricos (ΔΔG → Δδ → fator 2^{Δδ}).
+\end{document}
